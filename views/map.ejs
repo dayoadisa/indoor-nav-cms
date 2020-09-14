@@ -1,0 +1,113 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %>
+
+
+
+<!-- Begin Page Content -->
+<div class="container-fluid-map">
+
+  <!-- Page Heading -->
+
+
+  <!-- Content Row -->
+  <div class="row-map">
+
+    <div id="map"></div>
+
+    
+
+    <!-- <button id="add" data-toggle="modal" data-target="#modalRegisterForm"><i class="fas fa-plus-circle"></i></button>  -->
+
+    <div id="add" style="width: 10.2rem; margin-left: 550px;">
+      <%- include('includes/flash') %>
+      <div class="card-header">
+
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+          <a href="/post/<%= post._id %>/layer/create-layer"><i class="fas fa-layer-group"></i>
+        </button>
+
+        <button type="button" class="btn btn-default" aria-label="Left Align">
+          <a href="/post/<%= post._id %>/edit"><i class="fas fa-edit"></i></a>
+        </button>
+
+        <form class="delete-post-form d-inline" action="/post/<%= post._id %>/delete" method="POST">
+          <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i
+              class="fas fa-trash"></i></button>
+        </form>
+      </div>
+
+
+    </div>
+
+
+
+
+    <!-- Content Row -->
+
+  </div>
+
+</div>
+<!-- End of Main Content -->
+
+<!-- Footer -->
+<footer class="sticky-footer ">
+  <div class="container my-auto">
+    <div class="copyright text-center my-auto">
+      <span>Copyright &copy; VimAI 2020</span>
+    </div>
+  </div>
+</footer>
+<!-- End of Footer -->
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+</div>
+
+
+
+</div>
+
+<script>
+  mapboxgl.accessToken = '<%= mapBoxToken %>';
+  var post = <%- JSON.stringify(post) %>;
+
+
+  var map = new mapboxgl.Map({
+    container: 'map',
+    style: 'mapbox://styles/mapbox/streets-v11',
+    center: (post.geometry.coordinates),
+    zoom: 16
+  });
+
+
+
+  // create a HTML element for our post location/marker
+  var el = document.createElement('div');
+  el.className = 'marker';
+
+  // make a marker for our location and add to the map
+  new mapboxgl.Marker(el)
+    .setLngLat(post.geometry.coordinates)
+    .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
+      .setHTML('<h3>' + post.name + '</h3><p>' + post.address + '</p>'))
+    .addTo(map);
+
+    markerEl.addEventListener('click', () => {
+    map.flyTo({
+        center: (post.geometry.coordinates),
+        zoom: 11,
+    });
+});
+
+
+
+
+</script>
+
+
+<%- include('includes/scripts') %>

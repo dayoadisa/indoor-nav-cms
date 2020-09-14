@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="google-signin-client_id" content="773100687989-6fi09ejn0ima8tirfrbh077iv8gc1ohd.apps.googleusercontent.com">
+  <title>VimAI-CMS</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+  <script defer src="https://use.fontawesome.com/releases/v5.5.0/js/all.js" integrity="sha384-GqVMZRt5Gn7tB9D9q7ONtcp4gtHIUEW/yG7h98J7IpE3kpi+srfFyyB/04OV6pG0" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="/main.css">
+  <link rel="stylesheet" href="/sb-admin-2.min.css">
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
+</head>
+
+<body class="bg-gradient-primary">
+  <div class="container">
+
+   <div class="errors">
+    
+   </div>
+    
+
+    <!-- Outer Row -->
+    <div class="row justify-content-center">
+
+      <div class="col-xl-10 col-lg-12 col-md-9">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+          <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+
+            <div class="row">
+              <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+              <div class="col-lg-6">
+                <div class="p-5">
+                  <div class="text-center">
+                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                  </div>
+                  <form action="/login" method="POST" class="user">
+                    <%- include('includes/flash') %>
+                    <div class="form-group">
+                      <input type="text" class="form-control form-control-user" name="username" aria-describedby="usernameHelp" placeholder="Enter Username...">
+                    </div>
+                    <div class="form-group">
+                      <input name="password" type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Password">
+                    </div>
+                    <div class="form-group">
+                      <div class="custom-control custom-checkbox small">
+                        <input type="checkbox" class="custom-control-input" id="customCheck">
+                        <label class="custom-control-label" for="customCheck">Remember Me</label>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary btn-user btn-block">
+                      Login
+                    </button>
+                   
+                   
+                    
+                  </form>
+                  <hr>
+                  
+                  <div >
+                    <div class="col-md-12"> <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="auth/google"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a> </div>
+                  </div> <br>
+                  
+                   <a href="auth/google" class="btn btn-danger"><i class="fa fa-google"></i> SignIn with Google</a>
+                
+                <div id="my-signin2"><a href="/auth/google"></a></div> 
+                  <div class="text-center">
+                    <a class="small" href="forgot-password.html">Forgot Password?</a>
+                  </div>
+                  <div class="text-center">
+                    <a class="small" href="/create-register">Create an Account!</a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+<script src="/admin.min.js"></script>
+<script>$('[data-toggle="tooltip"]').tooltip()</script>
+<script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+<script>
+   function onSignIn(googleUser) {
+     var id_token  = googleUser.getAuthResponse().id_token
+     var profile = googleUser.getBasicProfile()
+     sessionStorage.setItem('token', id_token)
+     sessionStorage.setItem('user', profile.getName())
+     sessionStorage.setItem('in', 'accepted')
+     var tokens = sessionStorage.getItem('token')
+     console.log('token:',tokens)
+
+     var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'https://api.vim.ai:5005/login');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+      console.log('Signed in as: ' + xhr.responseText);
+    };
+    xhr.send('idtoken=' + id_token);
+   }
+
+   function onSuccess(googleUser) {
+       console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+       console.log('id-token: ' + googleUser.getAuthResponse().id_token);
+     }
+     function onFailure(error) {
+       console.log(error);
+     }
+    function renderButton() {
+      gapi.signin2.render('my-signin2', {
+        'scope': 'profile email',
+        'width': 240,
+        'height': 50,
+        'longtitle': true,
+        'theme': 'dark',
+        'onsuccess': onSuccess,
+        'onfailure': onFailure
+      });
+    }
+  
+const getToken = async function () {
+      
+ await fetch('https://api.vim.ai:5005/login', {
+   method: 'POST',
+   headers: {
+     "key": "X-ID-TOKEN",
+     "value": sessionStorage.getItem('token')
+   }
+ })
+ .then(response => response.text())
+ .then(data => alert(data))
+
+ 
+    }
+    getToken() 
+</script>
+
+</body>
+</html>

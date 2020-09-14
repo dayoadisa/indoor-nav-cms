@@ -1,0 +1,41 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar-2') %>
+<%- include('includes/topbar-2') %> 
+    
+<div class="container py-md-5 container--narrow">
+
+    <%- include('includes/flash') %>
+  
+    <p><strong>Total Buildings: <%= buildings.length %></strong></p>
+  
+    <div class="list-group">
+      <% buildings.forEach(function(building) { %>
+        <a href="/api/<%= building.buildingID %>"  class="list-group-item list-group-item-action">
+      
+        
+        <strong><%= building.name %></strong>
+       
+  
+      </a>
+      <%  }) %>
+  
+      
+    </div>
+  
+  </div>  
+
+ 
+
+
+
+
+
+<%- include('includes/footer') %>
+<%- include('includes/scripts') %>
+
+  
+
+
+  
+
+

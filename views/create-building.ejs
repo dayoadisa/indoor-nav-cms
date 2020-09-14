@@ -1,0 +1,55 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %>
+
+
+
+<div class="container py-md-5 container--narrow card">
+  <%- include('includes/flash') %>
+  <h5 class="card-header">Create Building</h5>
+<div class="card-body">
+  <form action="/post-building" method="POST">
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Building-ID</small></label>
+      <input required name="buildingID" id="buildingID" class="form-control form-control-lg form-control-title" type="number" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Area-ID</small></label>
+      <input required name="areaID" id="areaID" class="form-control form-control-lg form-control-title" type="number" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Alias</small></label>
+      <input required name="alias" id="alias" class="form-control form-control-lg form-control-title" type="text" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Name</small></label>
+      <input required name="name" id="post-name" class="form-control form-control-lg form-control-title" type="text" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Description</small></label>
+      <input name="description" id="description" class="form-control form-control-lg form-control-title" type="text" placeholder="" autocomplete="off">
+    </div>
+
+    <div class="form-group">
+      <label for="post-address" class="text-muted mb-1"><small>Address</small></label>
+      <input required name="location" id="location" class="form-control form-control-lg form-control-title" type="search" autocomplete="off" >
+    </div>
+
+    <div class="form-group ">
+      <label for="post-name" class="text-muted mb-1"><small>Tags</small></label>
+      <input name="tags" id="tags" class="form-control form-control-lg form-control-title" type="text" placeholder="" autocomplete="off">
+    </div>
+    
+    <button class="btn btn-primary btn-block">Next</button>
+  </form>
+</div>
+</div>
+
+
+<!-- footer begins -->
+<%- include('includes/footer') %>
+<%- include('includes/scripts') %>

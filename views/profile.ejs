@@ -1,0 +1,23 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %>
+
+
+
+  <div class="text-center card" style="width: 30rem; margin-left: 550px;">
+    <div class="card-header">
+      Profile
+      <button type="button" class="btn btn-default" aria-label="Left Align">
+      
+      </button>
+    </div>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">Name: <%= user.username %> </li>
+      <li class="list-group-item">Role: Developer </li>
+      <li class="list-group-item">Email: <%= user.email %></li>
+    </ul>
+  </div>
+ 
+
+<%- include('includes/footer') %>
+<%- include('includes/scripts') %>

@@ -1,0 +1,61 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %>
+
+
+
+<div class="container py-md-5 container--narrow card">
+  <%- include('includes/flash') %>
+  <a class="small font-weight-bold" href="/layer/<%= layer._id %>">&laquo; Back</a>
+  <h5 class="card-header mt-3">Edit Layer</h5>
+  <div class="card-body">
+    <form action="/layer/<%= layer._id %>/edit" method="POST" enctype="multipart/form-data" id="postEditForm">
+      <div class="form-group ">
+        <label for="post-name" class="text-muted mb-1"><big><%= layer.name %></big></label>
+
+      </div>
+
+      <div class="form-group ">
+        <label for="layer-name" class="text-muted mb-1"><small>Layer-Name</small></label>
+        <input required value="<%= layer.info[0].layerName %>" name="layerName" id="layerName" class="form-control form-control-lg form-control-title"
+          type="text" placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="floor" class="text-muted mb-1"><small>Floor</small></label>
+        <input required name="floor" value="<%= layer.info[0].floor %>" id="floor" class="form-control form-control-lg form-control-title" type="number"
+          placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="post-title" class="text-muted mb-1"><small>Display in</small></label>
+        <input type="file" id="imageUpload"  accept="images/*" name="images" multiple
+          class="form-control form-control-lg form-control-title">
+        <% layer.info[0].images.forEach(function(images, i) { %>
+          
+          <div class="">
+            <img src="<%= layer.info[0].images[0].url %>" width="200px">
+            <button type="button" name="deleteImage[]" class="close close-button imageDelete" id="images<%= i %>" value= "<%= images.public_id %>" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+            
+       <% }) %>
+      </div>
+
+      <div class="form-group">
+        <label for="layer-address" class="text-muted mb-1"><small>Address</small></label>
+        <input required value="<%= layer.address %>" name="address" id="layer-address"
+          class="form-control form-control-lg form-control-title" type="search" autocomplete="off">
+      </div>
+
+      <button  class="btn btn-primary btn-block">Update</button>
+    </form>
+  </div>
+</div>
+
+
+
+<!-- footer begins -->
+<%- include('includes/footer') %>
+<%- include('includes/scripts') %>

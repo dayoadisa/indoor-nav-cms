@@ -1,0 +1,41 @@
+  <%- include('includes/header') %>
+  <%- include('includes/sidebar') %>
+  <%- include('includes/topbar') %>
+
+  
+
+  <div class="container py-md-5 container--narrow card">
+    <%- include('includes/flash') %>
+    <h5 class="card-header">Create Building</h5>
+  <div class="card-body">
+    <form action="/create-building" method="POST">
+      <div class="form-group ">
+        <label for="post-name" class="text-muted mb-1"><small>Name</small></label>
+        <input required name="name" id="post-name" class="form-control form-control-lg form-control-title" type="text" placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="post-title" class="text-muted mb-1"><small>Display in</small></label>
+        <select name="language" id="dynamic-language-selector" class="custom-select btn btn-block form-control form-control-lg form-control-title">
+          <option value="en">English</option>
+          <option value="fi">Finnish</option>
+          <option value="se">Swedish</option>
+          <option value="de">German</option>
+          <option value="">Use default</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="post-address" class="text-muted mb-1"><small>Address</small></label>
+        <input required name="address" id="post-address" class="form-control form-control-lg form-control-title" type="search" autocomplete="off" >
+      </div>
+      
+      <button class="btn btn-primary btn-block">Next</button>
+    </form>
+  </div>
+  </div>
+
+  
+  <!-- footer begins -->
+  <%- include('includes/footer') %>
+  <%- include('includes/scripts') %>

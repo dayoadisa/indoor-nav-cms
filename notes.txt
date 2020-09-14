@@ -1,0 +1,15 @@
+Building management
+    - Add a Building
+    - edit/update a Building
+    -delete a Building
+
+Floor management
+    - Add a Floor plan
+    - edit/update a Floor plan
+    -delete a Floor plan
+    - multiple floor management
+
+Trace management
+    - show directions from one point to anaother
+
+Walkable area management

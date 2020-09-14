@@ -1,0 +1,63 @@
+ <!-- Footer -->
+  <footer class="fixed-bottom sticky-footer ">
+    <div class="container my-auto">
+      <div class="copyright text-center my-auto">
+      
+        <span>Copyright &copy; VimAI 2020</span>
+      </div>
+    </div>
+  </footer>
+  <!-- End of Footer -->
+
+
+</div>
+<!-- End of Content Wrapper -->
+
+</div>
+<!-- End of Page Wrapper -->
+
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.17.1"></script>
+<script>
+(function() {
+  var placesAutocomplete = places({
+    appId: 'plK444YP0LGX',
+    apiKey: '62489659fe050d68fd2b4a3f4b9b2521',
+    container: document.querySelector('#location')
+  });
+
+  var $location = document.querySelector('#address-value')
+  placesAutocomplete.on('change', function(e) {
+    $location.textContent = e.suggestion.latlng.lat
+    
+  });
+
+  var $address2 = document.querySelector('#address-value2')
+  placesAutocomplete.on('change', function(e) {
+    
+    $address2.textContent = e.suggestion.latlng.lng
+  });
+
+  placesAutocomplete.on('change', e => console.log(e.suggestion));
+
+  placesAutocomplete.on('clear', function() {
+    $location.textContent = 'none';
+  });
+
+  var $language = document.querySelector('#dynamic-language-selector')
+  $language.addEventListener('change', function(e){
+    var language = e.target.value;
+    if (language) {
+      placesAutocomplete.configure({ language: language });
+    }
+    else {
+      placesAutocomplete.configure({ language: undefined });
+    }
+  });
+
+  
+
+})();
+</script>
+</body>
+
+</html>
