@@ -1,4 +1,5 @@
 const apiLogin = require('./login');
+const apiData = require('./Api');
 const axios = require('axios')
 
 
@@ -120,6 +121,24 @@ Post.prototype.create = function () {
  
      
 //  }
+
+Post.search = function (searchTerm) {
+    return new Promise(async (resolve, reject) => {
+        let buildingData = await apiData.getApi()
+        let buildings = buildingData.data
+        if (typeof (searchTerm) == "string") {
+            let posts = buildings.filter(building => {
+                const regex = new RegExp(`^${searchTerm}`, 'gi')
+                return building.name.match(regex) || building.alias.match(regex)
+            })
+            //console.log('postapi:', posts)
+            resolve(posts)
+        } else {
+            reject()
+        }
+    })
+}
+
 
 
  module.exports = Post

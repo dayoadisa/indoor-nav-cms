@@ -2,6 +2,7 @@ const User = require('../models/User')
 const Post = require('../models/Post')
 const Layer = require('../models/Layer')
 const passport = require('../config/passport')
+const apiData = require('../models/api/Api')
 
 
 
@@ -88,9 +89,12 @@ exports.home = function (req, res) {
     }
 }
 
-exports.dashboard = function (req, res) {
+exports.dashboard = async function (req, res) {
+    let buildingData = await apiData.getApi()
+    let buildings = buildingData.data
     res.render('dashboard', {
-                name: req.user.firstName
+                name: req.user.firstName,
+                buildings: buildings
             })
     // if (req.session) {
     //     res.render('dashboard', {

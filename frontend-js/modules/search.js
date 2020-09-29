@@ -59,7 +59,7 @@ export default class Search {
         this.resultsArea.innerHTML = `<div class="list-group shadow-sm">
         <div class="list-group-item active"><strong>Search Results</strong>(${posts.length > 1 ? `${posts.length} items found` : '1 item found' })</div>
         ${posts.map(post => {
-            return `<a href="/post/${post._id}" class="list-group-item list-group-item-action">
+            return `<a href="/api/${post.buildingID}" class="list-group-item list-group-item-action">
              <strong>${post.name}</strong>
             
           </a>`

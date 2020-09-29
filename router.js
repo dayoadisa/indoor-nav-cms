@@ -16,14 +16,15 @@ const {ensureAuth, ensureGuest} = require('./middleware/auth')
 //Api related routes
 router.get('/api', apiController.apiLocations)
 router.get('/api/:id', apiController.viewBuilding)
+router.post('/search', apiController.search)
 router.get('/post-building',  apiController.viewCreateForm)
 router.post('/post-building', apiController.create)
 router.get('/display-locations', userController.mustBeLoggedIn, apiController.displayLocations)
 
 
 //google related routes
-router.get('/auth/google',   passport.authenticate('google', { scope: ['profile']}) )
-router.get('/auth/google/callback',   passport.authenticate('google', { failureRedirect: '/'}), userController.googleLogin ) 
+router.get('/auth/google',   passport.authenticate('google', { scope: ['profile', 'email']}) )
+router.get('/auth/google/callback',   passport.authenticate('google', { successRedirect : '/dashboard', failureRedirect: '/'}) ) 
 
 router.get('/dashboard', ensureAuth, userController.dashboard )
 
@@ -41,7 +42,7 @@ router.get('/layer-list/:username', userController.ifUserExists, userController.
 //post related routes
 router.get('/create-building', userController.mustBeLoggedIn, postController.viewCreateScreen)
 router.post('/create-building', userController.mustBeLoggedIn, postController.create)
-router.post('/search', postController.search)
+//router.post('/search', postController.search)
 router.get('/locations', userController.mustBeLoggedIn, postController.viewLocations)
 router.get('/post/:id', postController.viewBuilding)
 router.get('/post/:id/edit', postController.viewEditScreen)

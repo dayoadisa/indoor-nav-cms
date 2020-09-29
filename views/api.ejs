@@ -1,6 +1,6 @@
 <%- include('includes/header') %>
-<%- include('includes/sidebar-2') %>
-<%- include('includes/topbar-2') %> 
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %> 
     
 <div class="container py-md-5 container--narrow">
 
@@ -15,23 +15,66 @@
         
         <strong><%= building.name %></strong>
        
-  
+       
       </a>
       <%  }) %>
   
+     
+    </div>
+
+    <br/>
+    <div>
+     
+        <% if (pageCount > 0) { %>
+          <ul class="pagination justify-content-center">
+              <% if (currentPage == 1) { %>
+                  <li class="disabled page-item"><a class="page-link">First</a></li>
+              <% } else { %>
+                 
+                  <li class="page-item"><a class="page-link" href="/api?page=<%= i %>">First</a></li>
+              <% } %>
+              <% var i = (Number(currentPage) > 5 ? Number(currentPage) - 4 : 1) %>
+              <% if (i !== 1) { %>
+                  <li class="disabled page-item"><a class="page-link">...</a></li>
+              <% } %>
+              <% for (; i <= (Number(currentPage) + 4) && i <= pageCount; i++) { %>
+                  <% if (i == currentPage) { %>
+                      <li class="active page-item"><a class="page-link"><%= i %></a></li>
+                  <% } else { %>
+                     
+                      <li class="page-item"><a class="page-link" href="/api?page=<%= i %>"><%= i %></a></li>
+                  <% } %>
+                  <% if (i == Number(currentPage) + 4 && i < pageCount) { %>
+                      <li class="disabled page-item"><a class="page-link">...</a></li>
+                  <% } %>
+              <% } %>
+              <% if (currentPage == pageCount) { %>
+                  <li class="disabled page-item"><a class="page-link">Last</a></li>
+              <% } else { %>
+                  
+                  <li class="page-item"><a class="page-link" href="/api?page=<%= i %>">Last</a></li>
+              <% } %>
+          </ul>
+      <% } %>
+    
       
     </div>
-  
-  </div>  
+    
 
+  
+  
+    
+
+  </div>  
+  
  
 
 
 
 
-
-<%- include('includes/footer') %>
 <%- include('includes/scripts') %>
+<%- include('includes/footer') %>
+
 
   
 

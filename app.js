@@ -9,7 +9,7 @@ const cors = require('cors')
 const path = require('path')
 const morgan = require('morgan')
 const passport = require('passport')
-
+//const tokenValidator = require('./middleware/token_validator')
 //passport config
 require('./config/passport')(passport)
 

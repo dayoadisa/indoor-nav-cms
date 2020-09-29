@@ -1,6 +1,7 @@
 //const postsCollection = require('../db').db().collection('posts')
 //const Post = require('../models/Post')
 //const Layer = require('../models/Layer')
+const passportData = require('../config/passport')
 const apiData = require('../models/api/Api')
 const Post = require('../models/api/PostApi')
 const axios = require("axios");
@@ -8,6 +9,7 @@ var GeoJSON = require('geojson');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const mapBoxToken = process.env.MAPBOX_TOKEN;
+//const token_validator = require('../config/token_validator')
 
 
 
@@ -49,22 +51,34 @@ exports.apiLocations = async function (req, res) {
   try {
           let buildingData = await apiData.getApi()
           let buildings = buildingData.data
-          
+        
+        
+          let currentPage = 1
+          const totalPages = buildings.length
           const page = +req.query.page;
-          const pageSize = +req.query.pageSize;
-
-          if (page && pageSize) {
-            const start = (page - 1) * pageSize;
-            const end = start + pageSize;
-            //const pagBuild = buildings.slice(start, end);
-            res.render('api', {buildings: buildings.slice(start, end), name: req.user.firstName})
-          } else {
-            res.render('api', {buildings, name: req.user.firstName});
+          const pageSize = 10;
+          const pageCount = Math.ceil(totalPages / pageSize);
+          
+          
+          if(req.query.page) {
+            currentPage = parseInt(req.query.page, 10);
           }
 
-          
-          
-          console.log('location:', buildings)
+          const start = (currentPage - 1) * pageSize;
+          const end = currentPage * pageSize;
+         
+          res.render('api', 
+        {
+              buildings: buildings.slice(start, end),
+              pageSize: pageSize,
+              pageCount: pageCount,
+              currentPage: currentPage,
+              name: req.user.firstName
+        }
+      );
+           
+
+         
              
       } catch  {
           res.render('404')
@@ -74,46 +88,12 @@ exports.apiLocations = async function (req, res) {
          
 }
  
-
-function paginatedResults(model) {
-  return async (req, res, next) => {
-    const page = parseInt(req.query.page)
-    const limit = parseInt(req.query.limit)
-
-    const startIndex = (page - 1) * limit
-    const endIndex = page * limit
-
-    const results = {}
-
-    if (endIndex < await model.countDocuments().exec()) {
-      results.next = {
-        page: page + 1,
-        limit: limit
-      }
-    }
-    
-    if (startIndex > 0) {
-      results.previous = {
-        page: page - 1,
-        limit: limit
-      }
-    }
-    try {
-      results.results = await model.find().limit(limit).skip(startIndex).exec()
-      res.paginatedResults = results
-      next()
-    } catch (e) {
-      res.status(500).json({ message: e.message })
-    }
-  }
-}
-
 exports.viewBuilding = async function(req, res) {
     try {
       let buildingData = await apiData.getApi()
       let buildings = buildingData.data
       let singleBuilding = buildings.find(building => building.buildingID === +req.params.id)
-      res.render('api-map', {singleBuilding: singleBuilding, mapBoxToken: process.env.MAPBOX_TOKEN })
+      res.render('api-map', {singleBuilding: singleBuilding, mapBoxToken: process.env.MAPBOX_TOKEN, name: req.user.firstName })
       console.log('location:', singleBuilding)
     } catch {
       res.render('404')
@@ -135,4 +115,20 @@ exports.displayLocations = async function (req, res) {
     console.log(error)
 }
        
+}
+
+exports.search = async function (req, res) {
+  try {
+    let buildingData = await apiData.getApi()
+    let buildings = buildingData.data
+    //console.log('buildings:', buildings)
+    Post.search(req.body.searchTerm).then(posts => {
+      res.json(posts)
+    }).catch(() => {
+      res.json([])
+    })
+  } catch (error) {
+    
+  }
+  
 }
