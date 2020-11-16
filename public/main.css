@@ -423,8 +423,8 @@ textarea.tall-textarea {
     border-radius: 3px;
     font-size: 12px;
     text-align: center;
-   
-   
+    
+
     }
 
     .form-card {
@@ -508,6 +508,10 @@ textarea.tall-textarea {
   padding: 10px 19px;
   cursor: pointer
 }
-    /* profile related styles */
+    /* floors style */
 
-    
+    .btn-margin {
+      margin: 0 5px;
+    }
+
+  /* Position the navbar container inside the image */

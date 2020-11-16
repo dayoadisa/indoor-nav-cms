@@ -9,22 +9,33 @@ const User = require('./models/User')
 const apiController = require('./controllers/apiController')
 const passport = require('passport')
 const {ensureAuth, ensureGuest} = require('./middleware/auth')
-//const {checkToken} = require('./middleware/token_validator')
+const {checkToken} = require('./config/token_validator')
+const googleToken = require('./models/api/googleToken')
+const fs = require('fs')
 // tell the router to use checkToken function
 //router.use(checkToken)
 
 //Api related routes
-router.get('/api', apiController.apiLocations)
+router.get('/api', ensureAuth, apiController.apiLocations)
 router.get('/api/:id', apiController.viewBuilding)
 router.post('/search', apiController.search)
-router.get('/post-building',  apiController.viewCreateForm)
+router.get('/create-building', checkToken,  apiController.viewCreateForm)
+router.get('/api/:id/edit',  apiController.viewEditForm)
+router.post('/api/:id/edit',  apiController.edit)
 router.post('/post-building', apiController.create)
 router.get('/display-locations', userController.mustBeLoggedIn, apiController.displayLocations)
+router.post('/api/:id/delete', apiController.delete)
+
+//API-Layer Controller
+router.get('/layer', ensureAuth, layerController.buildings)
+router.get('/layer/:id', layerController.viewBuilding)
+
 
 
 //google related routes
-router.get('/auth/google',   passport.authenticate('google', { scope: ['profile', 'email']}) )
-router.get('/auth/google/callback',   passport.authenticate('google', { successRedirect : '/dashboard', failureRedirect: '/'}) ) 
+router.get('/auth/google',   passport.authenticate('google', { scope: ['profile', 'email'], accessType: 'offline', prompt: 'consent'}) )
+router.get('/auth/google/callback',   passport.authenticate('google', { failureRedirect: '/'}), googleToken.getToken
+) 
 
 router.get('/dashboard', ensureAuth, userController.dashboard )
 
@@ -40,7 +51,7 @@ router.get('/profile', userController.viewProfile)
 router.get('/layer-list/:username', userController.ifUserExists, userController.profileLayerScreen)
 
 //post related routes
-router.get('/create-building', userController.mustBeLoggedIn, postController.viewCreateScreen)
+//router.get('/create-building', userController.mustBeLoggedIn, postController.viewCreateScreen)
 router.post('/create-building', userController.mustBeLoggedIn, postController.create)
 //router.post('/search', postController.search)
 router.get('/locations', userController.mustBeLoggedIn, postController.viewLocations)
@@ -52,13 +63,13 @@ router.get('/list-buildings/:username', userController.mustBeLoggedIn, userContr
 
 
 //layer related routes
-router.get('/post/:id/layer/create-layer',   layerController.viewCreateLayer)
-router.get('/layer/:id',  layerController.viewSingle)
-router.get('/post/:id/layer/:id',  layerController.viewBuildingLayers)
-router.post('/layer/create-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.createLayer)
-router.post('/layer/:id/add-more-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.addMoreLayer)
-router.get('/layer/:id/edit', userController.mustBeLoggedIn, layerController.viewEditLayer)
-router.post('/layer/:id/edit', userController.mustBeLoggedIn, upload.array('images', 10), layerController.edit)
+// router.get('/post/:id/layer/create-layer',   layerController.viewCreateLayer)
+// router.get('/layer/:id',  layerController.viewSingle)
+// router.get('/post/:id/layer/:id',  layerController.viewBuildingLayers)
+// router.post('/layer/create-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.createLayer)
+// router.post('/layer/:id/add-more-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.addMoreLayer)
+// router.get('/layer/:id/edit', userController.mustBeLoggedIn, layerController.viewEditLayer)
+// router.post('/layer/:id/edit', userController.mustBeLoggedIn, upload.array('images', 10), layerController.edit)
 
 
 

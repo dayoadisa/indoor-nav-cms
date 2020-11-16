@@ -6,6 +6,7 @@ const apiData = require('../models/api/Api')
 
 
 
+
 exports.mustBeLoggedIn = function (req, res, next) {
     if (req.session) {
         next()
@@ -92,6 +93,7 @@ exports.home = function (req, res) {
 exports.dashboard = async function (req, res) {
     let buildingData = await apiData.getApi()
     let buildings = buildingData.data
+    
     res.render('dashboard', {
                 name: req.user.firstName,
                 buildings: buildings

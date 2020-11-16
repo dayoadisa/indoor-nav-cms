@@ -57,7 +57,7 @@
   
 
   mapboxgl.accessToken = '<%= mapBoxToken %>';
-  var posts = {features: <%- JSON.stringify(posts) %> };
+  var posts =  <%- JSON.stringify(posts) %> ;
 
 
 
@@ -67,7 +67,7 @@ var map = new mapboxgl.Map({
     style: 'mapbox://styles/mapbox/light-v9',
     center: [24.655899, 60.205490],
     accessToken: mapboxgl.accessToken,
-    zoom: 2
+    zoom: 1
 });
 
 map.addControl(new MapboxGeocoder({
@@ -139,8 +139,9 @@ map.on('load', function() {
     });
 
     map.on('click', 'unclustered-point', function(e) {
-      var coordinates = e.features.features[0].geometry.coordinates.slice();
-      var description = e.features.features[0].properties.description;
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      var name = e.features[0].properties.name;
+      var description = e.features[0].properties.description;
 
       // Ensure that if the map is zoomed out such that multiple
       // copies of the feature are visible, the popup appears
@@ -151,7 +152,8 @@ map.on('load', function() {
 
       new mapboxgl.Popup()
         .setLngLat(coordinates)
-        .setHTML(description)
+        .setHTML(name, description)
+        //.setHTML(description)
         .addTo(map);
     });
 
@@ -164,7 +166,7 @@ map.on('load', function() {
                 return;
 
             map.easeTo({
-                center: features.features[0].geometry.coordinates,
+                center: features[0].geometry.coordinates,
                 zoom: zoom
             });
         });

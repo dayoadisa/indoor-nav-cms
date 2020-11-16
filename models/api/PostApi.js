@@ -4,11 +4,10 @@ const axios = require('axios')
 
 
 
-let Post = function (data, userid, requestedPostId) {
+let Post = function (data) {
     this.data = data
     this.errors = []
-    this.userid = userid
-    this.requestedPostId = requestedPostId
+   
     
 }
 
@@ -17,20 +16,22 @@ Post.prototype.cleanUp = function () {
     if (typeof (this.data.name) != "string") { this.data.name = "" }
     if (typeof (this.data.alias) != "string") { this.data.alias = "" }
     if (typeof (this.data.description) != "string") { this.data.description = "" }
+    if (typeof (this.data.areaID) != "number") { this.data.areaID = "" }
+    if (typeof (this.data.buildingID) != "number") { this.data.buildingID = "" }
     
     //get rid of bogus properties
     this.data = {
         buildingID: this.data.buildingID,
         areaID: this.data.areaID,
-        name: this.data.name.trim(),
         alias: this.data.alias,
+        name: this.data.name.trim(),
         description: this.data.description.trim(),
-        location: {
+        
                 
-                coordinates: this.data.coordinates
-            },
+              
+        
     
-        tags: this.data.tags
+        tags: []
     }
     
     

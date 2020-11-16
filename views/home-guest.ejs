@@ -61,12 +61,16 @@
                     
                   </form>
                   <hr>
+
+                 
                   
                   <div >
+                 
+
                     <div class="col-md-12"> <a class="btn btn-lg btn-google btn-block text-uppercase btn-outline" href="auth/google"><img src="https://img.icons8.com/color/16/000000/google-logo.png"> Signup Using Google</a> </div>
                   </div> <br>
                   
-                   <a href="auth/google" class="btn btn-danger"><i class="fa fa-google"></i> SignIn with Google</a>
+                  
                 
                 <div id="my-signin2"><a href="/auth/google"></a></div> 
                   <div class="text-center">
@@ -94,35 +98,35 @@
 <script>$('[data-toggle="tooltip"]').tooltip()</script>
 <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
 <script>
-   function onSignIn(googleUser) {
-     var id_token  = googleUser.getAuthResponse().id_token
-     var profile = googleUser.getBasicProfile()
-     sessionStorage.setItem('token', id_token)
-     sessionStorage.setItem('user', profile.getName())
-     sessionStorage.setItem('in', 'accepted')
-     var tokens = sessionStorage.getItem('token')
-     console.log('token:',tokens)
+  //  function onSignIn(googleUser) {
+  //    var id_token  = googleUser.getAuthResponse().id_token
+  //    var profile = googleUser.getBasicProfile()
+  //    sessionStorage.setItem('token', id_token)
+  //    sessionStorage.setItem('user', profile.getName())
+  //    sessionStorage.setItem('in', 'accepted')
+  //    var tokens = sessionStorage.getItem('token')
+  //    console.log('token:',tokens)
 
-   }
+  //  }
 
-   function onSuccess(googleUser) {
-       console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
-       console.log('id-token: ' + googleUser.getAuthResponse().id_token);
-     }
-     function onFailure(error) {
-       console.log(error);
-     }
-    function renderButton() {
-      gapi.signin2.render('my-signin2', {
-        'scope': 'profile email',
-        'width': 240,
-        'height': 50,
-        'longtitle': true,
-        'theme': 'dark',
-        'onsuccess': onSuccess,
-        'onfailure': onFailure
-      });
-    }
+  //  function onSuccess(googleUser) {
+  //      console.log('Logged in as: ' + googleUser.getBasicProfile().getName());
+  //      console.log('id-token: ' + googleUser.getAuthResponse().id_token);
+  //    }
+  //    function onFailure(error) {
+  //      console.log(error);
+  //    }
+    // function renderButton() {
+    //   gapi.signin2.render('my-signin2', {
+    //     'scope': 'profile email',
+    //     'width': 240,
+    //     'height': 50,
+    //     'longtitle': true,
+    //     'theme': 'dark',
+    //     'onsuccess': onSuccess,
+    //     'onfailure': onFailure
+    //   });
+    // }
   
 // const getToken = async function () {
       

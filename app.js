@@ -1,5 +1,9 @@
+const moongoose = require('mongoose')
+const connectDB = require('./config/db')
+const User = require('./models/User')
 const express = require('express')
 const session = require('express-session')
+
 const MongoStore = require('connect-mongo')(session)
 const flash = require('connect-flash')
 const markdown = require('marked')
@@ -9,7 +13,13 @@ const cors = require('cors')
 const path = require('path')
 const morgan = require('morgan')
 const passport = require('passport')
-//const tokenValidator = require('./middleware/token_validator')
+const bodyParser = require('body-parser')
+const tokenValidator = require('./config/token_validator')
+const dotenv = require('dotenv')
+
+
+dotenv.config({ path: './config/config.env'})
+connectDB()
 //passport config
 require('./config/passport')(passport)
 
@@ -18,7 +28,7 @@ let sessionOptions = session({
   store: new MongoStore({ client: require('./db') }),
   resave: false,
   saveUninitialized: false,
-  cookie: { maxAge: 1000 * 60 * 60 * 24, httpOnly: true }
+  cookie: { maxAge: 1000 * 60 * 60, httpOnly: true }
 })
 
 app.use(sessionOptions)
@@ -57,9 +67,9 @@ app.use(passport.session())
 
 const router = require('./router')
 
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
 
+app.use(bodyParser.urlencoded({ extended: false }))
+app.use(bodyParser.json())
 
 
 app.use(express.static('public'))

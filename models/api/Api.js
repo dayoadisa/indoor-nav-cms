@@ -1,4 +1,5 @@
 const apiLogin = require('./login');
+const googleLogin = require('./googleToken')
 const axios = require('axios')
 
 const BASE_URL = `https://api.vim.ai:5005`
@@ -18,9 +19,9 @@ module.exports = {
         } catch (error) {
             console.log(error)
         } 
-    }
+    },
  
-     
+  
  }
 
  

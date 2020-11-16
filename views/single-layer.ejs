@@ -3,201 +3,32 @@
 <%- include('includes/topbar') %>
 
 
-<!-- Begin Page Content -->
-<div class="container-fluid-map">
 
-  <!-- Page Heading -->
+<div class="container py-md-5 container--narrow">
 
+  <%- include('includes/flash') %>
 
-  <!-- Content Row -->
-  <div class="row-map">
+  <p><strong>Total Floors: <%= floors.length %></strong></p>
 
-  
-
-      <div id="map"></div>
-
+  <div class="list-group">
+    <% floors.forEach(function(floor) { %>
+      <a href="/layer/<%= floor.areaID %>"  class="list-group-item list-group-item-action">
+    
       
+      <strong><%= floor.name %></strong>
 
-      <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            
-            <div class="modal-body">
-              <div class="container py-md-5 container--narrow card">
-               
-                <%- include('includes/flash') %>
-                <h5 class="card-header mt-3">Add more floors</h5>
-                <div class="card-body">
-                  <form action="/layer/<%= layers._id %>" method="POST" enctype="multipart/form-data">
-              
-                    <div class="form-group ">
-                      <label for="post-name" class="text-muted mb-1"><small>Layer-Name</small></label>
-                      <input required name="layerName" id="layerName" class="form-control form-control-lg form-control-title"
-                        type="text" placeholder="" autocomplete="off">
-                    </div>
-              
-                    <div class="form-group ">
-                      <label for="floor" class="text-muted mb-1"><small>Floor</small></label>
-                      <input required name="floor" id="floor" class="form-control form-control-lg form-control-title" type="number"
-                        placeholder="" autocomplete="off">
-                    </div>
-              
-                    <div class="form-group">
-                      <label for="post-title" class="text-muted mb-1"><small>Upload floors</small></label>
-                      <input type="file" accept="images/*" name="images" multiple
-                        class="form-control form-control-lg form-control-title">
-                    </div>
-              
-                
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancle</button>
-                    <button  class="btn btn-primary">Add more floors</button>
-                    
-                  </form>
-                </div>
-              </div>
-            </div>
-           
-          </div>
-        </div>
-      </div>
-
-
-      <div id="add" style="width: 10.2rem; margin-left: 550px;">
-        <%- include('includes/flash') %>
-        <div class="card-header">
-          
-          <div><strong style="color: black;"><%= layers.name %></strong></div>
-
-          <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="modal" data-target="#exampleModal">
-              <i class="fas fa-layer-group"></i></a>
-          </button>
-
-          
-  
-          <button type="button" class="btn btn-default" aria-label="Left Align">
-            <a href="/layer/<%= layers._id %>/edit"><i class="fas fa-edit"></i></a>
-          </button>
-  
-          <form class="delete-post-form d-inline" action="/post/<%= post._id %>/delete" method="POST">
-            <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i
-                class="fas fa-trash"></i></button>
-          </form>
-        </div>
-  
-  
-      </div>
-  
-
-
+      <button type="button" class="btn btn-danger float-right">Delete</button>
+      <button type="button" class="btn btn-primary btn-margin float-right">Edit</button>
       
-        <nav class="nav flex-column floor-btn">
-          <a class="nav-link active btn btn-primary btn-circle btn-lg" href="#"><%= layers.info[0].floor %></a>
-        </nav>
-      
+    </a>
+    <%  }) %>
 
-        
-      
-      
-        
-        
-        
    
   </div>
-<!-- End of Main Content -->
 
-<!-- Footer -->
-<footer class="sticky-footer ">
-  <div class="container my-auto">
-    <div class="copyright text-center my-auto">
-      <span>Copyright &copy; VimAI 2020</span>
-    </div>
-  </div>
-</footer>
-<!-- End of Footer -->
+  <br/>
+  <div>
+   
 
-</div>
-<!-- End of Content Wrapper -->
-
-</div>
-<!-- End of Page Wrapper -->
-
-</div>
-
-
-
-</div>
-
-<script>
-  mapboxgl.accessToken = '<%= mapBoxToken %>';
-  var layers = <%- JSON.stringify(layers) %>;
-
-
-  var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/streets-v11',
-    center: (layers.coordinates),
-    zoom: 16
-  });
-
-
-var image = map.on('load', function() {
-      map.loadImage(
-        '<%= layers.info[0].images[0].url %>',
-        function(error, image) {
-          if (error) throw error;
-              map.addImage('layer', image);
-              map.addSource('point', {
-                'type': 'geojson',
-                'data': {
-                'type': 'FeatureCollection',
-                'features': [
-              {
-                'type': 'Feature',
-                'geometry': {
-                'type': 'Point',
-                'coordinates': (layers.coordinates)
-                            }
-                          }
-                        ]
-                      }
-                    });
-              map.addLayer({
-                'id': 'points',
-                'type': 'symbol',
-                'source': 'point',
-                'layout': {
-                'icon-image': 'layer',
-                'icon-size': 1.05
-                          }
-                      });
-                    }
-                  );
-              });
-
-var marker = new mapboxgl.image({
-draggable: true
-})
-.setLngLat([0, 0])
-.addTo(map);
- 
-function onDragEnd() {
-var lngLat = marker.getLngLat();
-coordinates.style.display = 'block';
-coordinates.innerHTML =
-'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
-}
- 
-marker.on('dragend', onDragEnd);
-
-
-
-</script>
 
 <%- include('includes/scripts') %>
-
-
-
-
-
-
-
