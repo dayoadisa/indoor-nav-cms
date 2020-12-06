@@ -11,11 +11,26 @@ const passport = require('../config/passport');
 const geocodingClient = mbxGeocoding({ accessToken: process.env.MAPBOX_TOKEN });
 const mapBoxToken = process.env.MAPBOX_TOKEN;
 const fs = require('fs');
-const { viewBuilding } = require('./postController');
+//const { viewBuilding } = require('./postController');
 
 const BASE_URL = `https://api.vim.ai:5005`
 
-//let floorCount
+exports.viewCreateForm = async function ( req, res) {
+  
+  try {
+    let buildingData = await apiData.getApi()
+    let buildings = buildingData.data
+    let singleBuilding = buildings.find(building => building.buildingID === +req.params.id)
+
+    res.render('create-floor', {name: req.user.firstName, singleBuilding})
+  } catch (error) {
+    console.log(error)
+  }
+ 
+
+}
+
+
 
 exports.buildings = async function (req, res) {
 
@@ -39,20 +54,15 @@ exports.buildings = async function (req, res) {
           const start = (currentPage - 1) * pageSize;
           const end = currentPage * pageSize;
 
-         const floorCount =  viewBuilding()
-         floorCount.then(function(floor) {
-           console.log('f:', floor)
-         })
-         
-       //let countFloor = floorCount
+          const floorCount = req.floorCount
           res.render('layer', 
         {
               buildings: buildings.slice(start, end),
               pageSize: pageSize,
               pageCount: pageCount,
               currentPage: currentPage,
-              //floor: floor,
-              name: req.user.firstName
+              name: req.user.firstName,
+              floorCount: floorCount
         }
       );
            
@@ -60,7 +70,7 @@ exports.buildings = async function (req, res) {
          
              
       } catch  {
-          res.render('404')
+          res.render('404', {name: req.user.firstName})
           
       }
   
@@ -75,14 +85,14 @@ exports.viewBuilding = async function(req, res) {
     const config = { headers: { Authorization: token } }
     let buildingData = await apiData.getApi()
     let buildings = buildingData.data
+    
+  
     let singleBuilding = buildings.find(building => building.buildingID === +req.params.id)
-    //console.log(singleBuilding)
-   
+    console.log('Single:' ,singleBuilding)
     const result = await axios.get(BASE_URL + `/buildings/` + singleBuilding.buildingID + `/areas/`, config)
-     floorCount = result.data.length
-    console.log(floorCount)
-    const floors = result.data
-    //return floorCount
+   
+     const floors = result.data
+   
     res.render('single-layer', {singleBuilding: singleBuilding, 
       mapBoxToken: process.env.MAPBOX_TOKEN, 
       name: req.user.firstName,
@@ -92,15 +102,66 @@ exports.viewBuilding = async function(req, res) {
      
     console.log('floors:', result.data)
   } catch {
-    res.render('404')
+    res.render('404', {name: req.user.firstName})
   }
 
 }
 
+exports.create = async function (req, res) {
 
 
+  try {
+    let buildingData = await apiData.getApi()
+    let buildings = buildingData.data
+    let singleBuilding = buildings.find(building => building.buildingID === +req.params.id)
+
+    let response = await geocodingClient
+      .forwardGeocode({
+        query: req.body.location,
+        limit: 1,
+        autocomplete: true
+      })
+      .send();
+
+    const {
+      buildingID,
+      areaID,
+      alias,
+      name,
+      description,
+      tags,
+      features
+    } = req.body;
+    const [lng, lat, address] = response.body.features[0].geometry.coordinates;
+
+    const data = { buildingID, areaID, alias, name, description, location: { lng, lat }, tags };
 
 
+    const config = {
+      method: "POST",
+      url: "https://api.vim.ai:5005/buildings",
+      headers: {
+        Authorization: token,
+        "Content-Type": "application/json"
+      },
+      data
+    };
+
+    axios(config)
+      .then(function (response) {
+        console.log('Building was created successfully');
+        //req.session.save(() => res.redirect(`/api/${req.params.id}`))
+        res.redirect('/api')
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+
+    
+  } catch (error) {
+    console.log(error);
+  }
+}
 
 // cloudinary.config({
 //   cloud_name: 'dcu4avexf',

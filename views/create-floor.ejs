@@ -1,0 +1,137 @@
+<%- include('includes/header') %>
+<%- include('includes/sidebar') %>
+<%- include('includes/topbar') %>
+
+
+
+<div class="container py-md-5 container--narrow card">
+  <%- include('includes/flash') %>
+  <a class="small font-weight-bold" href="/api/<%= singleBuilding.buildingID %>">&laquo; Back</a>
+  <h5 class="card-header mt-3">Create Floor</h5>
+  <div class="card-body">
+    <form action="/layer/create-layer" method="POST" enctype="multipart/form-data">
+      <div class="form-group ">
+        <label for="post-name" class="text-muted mb-1"><big><strong>AreaID</strong></big></label>
+        <input required value="" name="name" id="post-name"
+          class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="post-name" class="text-muted mb-1"><small>Alias</small></label>
+        <input required name="layerName" id="layerName" class="form-control form-control-lg form-control-title"
+          type="text" placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="floor" class="text-muted mb-1"><small>Name</small></label>
+        <input required name="floor" id="floor" class="form-control form-control-lg form-control-title" type="text"
+          placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="floor" class="text-muted mb-1"><small>Description</small></label>
+        <input required name="floor" id="floor" class="form-control form-control-lg form-control-title" type="text"
+          placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="floor" class="text-muted mb-1"><small>Type</small></label>
+        <input required name="floor" id="floor" class="form-control form-control-lg form-control-title" type="text"
+          placeholder="" autocomplete="off">
+      </div>
+
+      <div class="form-group ">
+        <label for="floor" class="text-muted mb-1"><small>Tags</small></label>
+        <input required name="floor" id="floor" class="form-control form-control-lg form-control-title" type="text"
+          placeholder="" autocomplete="off">
+      </div>
+
+      <h5>Top-Left</h5>
+      <div class="form-row">
+
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>X</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+        
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Y</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Z</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+       
+      </div>
+
+      <h5>Bottom-Right</h5>
+      <div class="form-row">
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>X</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+        
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Y</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Z</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+        
+      </div>
+
+      <h5>Centre</h5>
+      <div class="form-row">
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>X</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+        
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Y</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+
+        <div class="form-group col-md-4 ">
+          <label for="post-name" class="text-muted mb-1"><big><strong>Z</strong></big></label>
+          <input required value="" name="name" id="post-name"
+            class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+        </div>
+      </div>
+
+      <div class="form-group ">
+        <label for="post-name" class="text-muted mb-1"><big><strong>Floor Order</strong></big></label>
+        <input required value="" name="name" id="post-name"
+          class="form-control form-control-lg form-control-title" type="number" autocomplete="off">
+      </div>
+
+      <div class="form-group">
+        <label for="post-title" class="text-muted mb-1"><small>Upload floors</small></label>
+        <input type="file" accept="images/*" name="images" multiple
+          class="form-control form-control-lg form-control-title">
+      </div>
+
+      
+
+      <button class="btn btn-primary btn-block">Create Layer</button>
+    </form>
+  </div>
+</div>
+
+
+<!-- footer begins -->
+<%- include('includes/footer') %>
+<%- include('includes/scripts') %>

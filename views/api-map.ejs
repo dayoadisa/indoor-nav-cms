@@ -23,11 +23,11 @@
       <%- include('includes/flash') %>
       <div class="card-header">
 
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-          <a href="/"><i class="fas fa-layer-group"></i>
+        <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Add floor">
+          <a href="/create-floor/<%= singleBuilding.buildingID %>"><i class="fas fa-layer-group"></i>
         </button>
 
-        <button type="button" class="btn btn-default" aria-label="Left Align">
+        <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Edit">
           <a href="/api/<%= singleBuilding.buildingID %>/edit"><i class="fas fa-edit"></i></a>
         </button>
 

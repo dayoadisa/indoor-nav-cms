@@ -10,6 +10,7 @@ const apiController = require('./controllers/apiController')
 const passport = require('passport')
 const {ensureAuth, ensureGuest} = require('./middleware/auth')
 const {checkToken} = require('./config/token_validator')
+//const {floors} = require('./controllers/layerController')
 const googleToken = require('./models/api/googleToken')
 const fs = require('fs')
 // tell the router to use checkToken function
@@ -29,6 +30,7 @@ router.post('/api/:id/delete', apiController.delete)
 //API-Layer Controller
 router.get('/layer', ensureAuth, layerController.buildings)
 router.get('/layer/:id', layerController.viewBuilding)
+router.get('/create-floor/:id',  layerController.viewCreateForm)
 
 
 
