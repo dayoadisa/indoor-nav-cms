@@ -7,20 +7,19 @@
 <div class="container py-md-5 container--narrow">
 
   <%- include('includes/flash') %>
-
+  <h1><strong> Name of Building: <%= singleBuilding.name %></strong></h1>
   <p><strong>Total Floors: <%= floors.length %></strong></p>
 
-  <div class="list-group">
-    <% floors.forEach(function(floor) { %>
-      <a href="/layer/<%= floor.areaID %>"  class="list-group-item list-group-item-action">
-    
-      
-      <strong><%= floor.name %></strong>
+  <div class=" floor-btn btn-group-vertical" role="group" aria-label="First group">
+    <% floors.forEach(function(floor, index) { %>
 
-      <button type="button" class="btn btn-danger float-right">Delete</button>
-      <button type="button" class="btn btn-primary btn-margin float-right">Edit</button>
       
-    </a>
+        
+        <a href="/layer/<%= floor.areaID %>" class="btn btn-primary" role="button" aria-pressed="true"><%= index %></a>
+     
+         
+        
+   
     <%  }) %>
 
    

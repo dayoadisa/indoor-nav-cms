@@ -13,12 +13,28 @@
   <!-- Content Row -->
   <div class="row-map">
 
-    <div id="map"></div>
+    <div id="map">    
+      <div class="icon-bar">
+        
+        <a href="/api" data-toggle="tooltip" data-placement="Left" title="Back"><i class="fas fa-arrow-circle-left"></i></a>
+        
+        <a href="/create-floor/<%= singleBuilding.buildingID %>" data-toggle="tooltip" data-placement="Left" title="Add floor"><i class="fa fa-layer-group"></i></a> 
+
+        <a href="/api/<%= singleBuilding.buildingID %>/edit" data-toggle="tooltip" data-placement="Left" title="Edit"><i class="fa fa-edit"></i></a>
+
+        <form class="delete-post-form d-inline" action="/api/<%= singleBuilding.buildingID %>/delete" method="POST">
+        <a href="#" class="delete-post-button text-danger" data-toggle="tooltip" data-placement="Left" title="Delete"><i class="fa fa-trash"></i></a>
+        </form>
+      </div>
+  </div>
 
     
 
     <!-- <button id="add" data-toggle="modal" data-target="#modalRegisterForm"><i class="fas fa-plus-circle"></i></button>  -->
 
+
+      
+<!-- 
     <div id="add" style="width: 10.2rem; margin-left: 550px;">
       <%- include('includes/flash') %>
       <div class="card-header">
@@ -38,7 +54,7 @@
       </div>
 
 
-    </div>
+    </div> -->
 
 
 

@@ -15,7 +15,7 @@ const fs = require('fs')
 var token
 
 const data = fs.readFileSync('authToken.txt', 'utf8')
-console.log('authToken:', data)
+console.log('read-authToken:', data)
 token = data
 
 const BASE_URL = `https://api.vim.ai:5005`
@@ -284,6 +284,15 @@ exports.search = async function (req, res) {
   
 }
 
+exports.profile = async function ( req, res) {
 
+  try {
+    res.render('profile', {name: req.user.displayName, image: req.user.image })
+  } catch {
+    res.render('404', {name: req.user.firstName, image: req.user.image})
+  }
+ 
+
+}
   
  

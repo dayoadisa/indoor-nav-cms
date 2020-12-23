@@ -49,7 +49,7 @@ router.post('/login', userController.login)
 router.post('/logout', userController.logout)
 
 //profile related routes
-router.get('/profile', userController.viewProfile)
+router.get('/profile', apiController.profile)
 router.get('/layer-list/:username', userController.ifUserExists, userController.profileLayerScreen)
 
 //post related routes

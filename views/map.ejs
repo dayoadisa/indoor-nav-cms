@@ -13,33 +13,64 @@
   <!-- Content Row -->
   <div class="row-map">
 
-    <div id="map"></div>
+    <div id="map">
+      
+      <div class="icon-bar">
+        
+        
+        <a href="/api" data-toggle="tooltip" data-placement="Left" title="Back"><i class="fas fa-arrow-circle-left"></i></a>
+        
+        <a href="/create-floor/<%= singleBuilding.buildingID %>" data-toggle="tooltip" data-placement="Left" title="Add floor"><i class="fa fa-layer-group"></i></a> 
 
+        <a href="/api/<%= singleBuilding.buildingID %>/edit" data-toggle="tooltip" data-placement="Left" title="Edit"><i class="fa fa-edit"></i></a>
+
+        <form class="delete-post-form d-inline" action="/api/<%= singleBuilding.buildingID %>/delete" method="POST">
+        <a href="#" class="delete-post-button text-danger" data-toggle="tooltip" data-placement="Left" title="Delete"><i class="fa fa-trash"></i></a>
+        </form>
+      </div>
+
+      
+        
+     
+  </div>
+
+  <div class=" floor-btn btn-group-vertical" role="group" aria-label="First group">
+    <% floors.forEach(function(floor, index) { %>
     
+        <a href="/layer/<%= floor.areaID %>" class="btn btn-primary" role="button" aria-pressed="true"><%= index %></a>
+    
+    <%  }) %>
+
+  </div>
+
+
+    <pre id="coordinates" class="coordinates"></pre>
 
     <!-- <button id="add" data-toggle="modal" data-target="#modalRegisterForm"><i class="fas fa-plus-circle"></i></button>  -->
 
+
+      
+<!-- 
     <div id="add" style="width: 10.2rem; margin-left: 550px;">
       <%- include('includes/flash') %>
       <div class="card-header">
 
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-          <a href="/post/<%= post._id %>/layer/create-layer"><i class="fas fa-layer-group"></i>
+        <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Add floor">
+          <a href="/create-floor/<%= singleBuilding.buildingID %>"><i class="fas fa-layer-group"></i>
         </button>
 
-        <button type="button" class="btn btn-default" aria-label="Left Align">
-          <a href="/post/<%= post._id %>/edit"><i class="fas fa-edit"></i></a>
+        <button type="button" class="btn btn-default" aria-label="Left Align" data-toggle="tooltip" data-placement="top" title="Edit">
+          <a href="/api/<%= singleBuilding.buildingID %>/edit"><i class="fas fa-edit"></i></a>
         </button>
 
-        <form class="delete-post-form d-inline" action="/post/<%= post._id %>/delete" method="POST">
+        <form class="delete-post-form d-inline" action="/api/<%= singleBuilding.buildingID %>/delete" method="POST">
           <button class="delete-post-button text-danger" data-toggle="tooltip" data-placement="top" title="Delete"><i
               class="fas fa-trash"></i></button>
         </form>
       </div>
 
 
-    </div>
-
+    </div> -->
 
 
 
@@ -74,37 +105,42 @@
 
 <script>
   mapboxgl.accessToken = '<%= mapBoxToken %>';
-  var post = <%- JSON.stringify(post) %>;
+  var singleBuilding = <%- JSON.stringify(singleBuilding) %>;
 
+  var coordinates = document.getElementById('coordinates');
 
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/streets-v11',
-    center: (post.geometry.coordinates),
+    center: (singleBuilding.location),
     zoom: 16
   });
 
 
 
   // create a HTML element for our post location/marker
-  var el = document.createElement('div');
-  el.className = 'marker';
+  //var el = document.createElement('div');
+  //el.className = 'marker';
 
   // make a marker for our location and add to the map
-  new mapboxgl.Marker(el)
-    .setLngLat(post.geometry.coordinates)
+  //new mapboxgl.Marker(el)
+  var marker = new mapboxgl.Marker({
+      draggable: true
+    })
+    .setLngLat(singleBuilding.location)
     .setPopup(new mapboxgl.Popup({ offset: 25 }) // add popups
-      .setHTML('<h3>' + post.name + '</h3><p>' + post.address + '</p>'))
+      .setHTML('<h3>' + singleBuilding.name + '</h3><p>' + singleBuilding.description + '</p>'))
     .addTo(map);
 
-    markerEl.addEventListener('click', () => {
-    map.flyTo({
-        center: (post.geometry.coordinates),
-        zoom: 11,
-    });
-});
-
-
+    function onDragEnd() {
+    var lngLat = marker.getLngLat();
+    coordinates.style.display = 'block';
+    coordinates.innerHTML =
+    'Longitude: ' + lngLat.lng + '<br />Latitude: ' + lngLat.lat;
+    }
+ 
+marker.on('dragend', onDragEnd);
+ 
 
 
 </script>

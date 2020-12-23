@@ -90,18 +90,24 @@ exports.viewBuilding = async function(req, res) {
     let singleBuilding = buildings.find(building => building.buildingID === +req.params.id)
     console.log('Single:' ,singleBuilding)
     const result = await axios.get(BASE_URL + `/buildings/` + singleBuilding.buildingID + `/areas/`, config)
+    
    
      const floors = result.data
-   
-    res.render('single-layer', {singleBuilding: singleBuilding, 
+    
+  
+    //console.log('map:', floorMap)
+     
+    res.render('map', {singleBuilding: singleBuilding, 
       mapBoxToken: process.env.MAPBOX_TOKEN, 
       name: req.user.firstName,
       floors: floors
+      //floorMap: floorMap
      })
 
      
     console.log('floors:', result.data)
-  } catch {
+  } catch (errors){
+    console.log(errors)
     res.render('404', {name: req.user.firstName})
   }
 

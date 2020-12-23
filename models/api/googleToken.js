@@ -13,7 +13,7 @@ exports.getToken = async function (req, res) {
   try {
 
     const data = fs.readFileSync('token.txt', 'utf8')
-    console.log(data)
+    console.log('idToken:',data)
     token = data
 
     let response = await axios({
@@ -26,7 +26,7 @@ exports.getToken = async function (req, res) {
       }
   })
 
-  console.log(response.headers.authorization)
+  console.log('write-authToken:', response.headers.authorization)
 
   
 
