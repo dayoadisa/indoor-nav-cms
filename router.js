@@ -13,6 +13,7 @@ const {checkToken} = require('./config/token_validator')
 //const {floors} = require('./controllers/layerController')
 const googleToken = require('./models/api/googleToken')
 const fs = require('fs')
+//const {readFile} = require('./middleware/readFile')
 // tell the router to use checkToken function
 //router.use(checkToken)
 
@@ -20,10 +21,10 @@ const fs = require('fs')
 router.get('/api', ensureAuth, apiController.apiLocations)
 router.get('/api/:id', apiController.viewBuilding)
 router.post('/search', apiController.search)
-router.get('/create-building', checkToken,  apiController.viewCreateForm)
+router.get('/create-building', apiController.readFile, apiController.viewCreateForm)
 router.get('/api/:id/edit',  apiController.viewEditForm)
 router.post('/api/:id/edit',  apiController.edit)
-router.post('/post-building', apiController.create)
+router.post('/post-building',  apiController.create)
 router.get('/display-locations', userController.mustBeLoggedIn, apiController.displayLocations)
 router.post('/api/:id/delete', apiController.delete)
 
@@ -52,26 +53,10 @@ router.post('/logout', userController.logout)
 router.get('/profile', apiController.profile)
 router.get('/layer-list/:username', userController.ifUserExists, userController.profileLayerScreen)
 
-//post related routes
-//router.get('/create-building', userController.mustBeLoggedIn, postController.viewCreateScreen)
-router.post('/create-building', userController.mustBeLoggedIn, postController.create)
-//router.post('/search', postController.search)
-router.get('/locations', userController.mustBeLoggedIn, postController.viewLocations)
-router.get('/post/:id', postController.viewBuilding)
-router.get('/post/:id/edit', postController.viewEditScreen)
-router.post('/post/:id/edit', userController.mustBeLoggedIn, postController.edit)
-router.post('/post/:id/delete', userController.mustBeLoggedIn, postController.delete)
-router.get('/list-buildings/:username', userController.mustBeLoggedIn, userController.ifUserExists, userController.profilePostScreen)
 
 
-//layer related routes
-// router.get('/post/:id/layer/create-layer',   layerController.viewCreateLayer)
-// router.get('/layer/:id',  layerController.viewSingle)
-// router.get('/post/:id/layer/:id',  layerController.viewBuildingLayers)
-// router.post('/layer/create-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.createLayer)
-// router.post('/layer/:id/add-more-layer', upload.array('images', 10), userController.mustBeLoggedIn, layerController.addMoreLayer)
-// router.get('/layer/:id/edit', userController.mustBeLoggedIn, layerController.viewEditLayer)
-// router.post('/layer/:id/edit', userController.mustBeLoggedIn, upload.array('images', 10), layerController.edit)
+
+
 
 
 

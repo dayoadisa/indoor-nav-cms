@@ -66,6 +66,7 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 const router = require('./router')
+//const apiController = require('./controllers/apiController')
 
 
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -78,6 +79,8 @@ app.set('view engine', 'ejs')
 
 
 app.use('/', router)
+//app.use('/',  apiController)
+
 
 
 //app.listen(process.env.PORT, console.log(`server is running on $`))

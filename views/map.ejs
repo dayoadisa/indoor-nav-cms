@@ -25,7 +25,7 @@
         <a href="/api/<%= singleBuilding.buildingID %>/edit" data-toggle="tooltip" data-placement="Left" title="Edit"><i class="fa fa-edit"></i></a>
 
         <form class="delete-post-form d-inline" action="/api/<%= singleBuilding.buildingID %>/delete" method="POST">
-        <a href="#" class="delete-post-button text-danger" data-toggle="tooltip" data-placement="Left" title="Delete"><i class="fa fa-trash"></i></a>
+        <a href="/api/<%= singleBuilding.buildingID %>/delete" class="delete-post-button text-danger" data-toggle="tooltip" data-placement="Left" title="Delete"><i class="fa fa-trash"></i></a>
         </form>
       </div>
 

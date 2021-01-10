@@ -14,9 +14,25 @@ const fs = require('fs')
 
 var token
 
-const data = fs.readFileSync('authToken.txt', 'utf8')
-console.log('read-authToken:', data)
-token = data
+
+
+exports.readFile = function (req, res, next) {
+
+  if (req.session) {
+    const data = fs.readFileSync('authToken.txt', 'utf8')
+    console.log('read-authToken:', data)
+    token = data
+    next()
+} else {
+    
+    req.session.save(function () {
+        res.redirect('/')
+    })
+}
+
+}
+
+
 
 const BASE_URL = `https://api.vim.ai:5005`
 
